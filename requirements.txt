@@ -1,0 +1,14 @@
+# Python >= 3.11 required (uses match statements and X | Y type unions)
+#
+# Install:
+#   pip install -r requirements.txt
+#   playwright install chromium          # downloads Chromium browser binary
+#   playwright install-deps chromium     # Linux only: system libs
+#
+# Optional – auto captcha solving (image-sequence challenge):
+#   set OPENAI_API_KEY=sk-...   or pass --openai-key on the CLI
+
+playwright==1.58.0
+pyee==13.0.1          # transitive playwright dep
+greenlet==3.4.0       # transitive playwright dep
+typing_extensions==4.15.0
