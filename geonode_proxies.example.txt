@@ -1,0 +1,30 @@
+# Geonode sticky: one full proxy URL per line (url_clicker.py / proxy mode).
+#
+# Are we using Geonode wrong?
+# - Username pattern matches Geonode curl docs: ...-country-<cc>-session-<id>
+# - Playwright uses server + user + pass (same as http://user:pass@host:port) — correct.
+# - PORT must match YOUR product: Geonode sticky *HTTP* is often 10000–10900 (docs);
+#   generic examples sometimes show 9000. Copy host:port from the dashboard.
+# - Use an HTTP proxy port with Playwright here, not a SOCKS-only port.
+# - If the dashboard shows a different username (e.g. -lifetime- or -type-residential-),
+#   paste that full username from Geonode instead of our generator.
+#
+# Username format (same as curl --user):
+#   <geonode_username>-country-<country_code>-session-<session_id>
+#
+# session_id: 1–25 chars [a-zA-Z0-9_] — same id = same sticky IP.
+# If your Geonode username is an email, the @ is URL-encoded in the URL as %40.
+#
+# Example shape (use host:port from YOUR Geonode dashboard):
+# http://tech%40anakin.company-country-us-session-my_sess_1:YOUR_PASSWORD@proxy.geonode.io:10000
+#
+# Generate many lines without hand-editing:
+#   export GEONODE_USER='...' GEONODE_PASSWORD='...'
+#   # optional: export GEONODE_PORT=10000   # or whatever the dashboard shows
+#   # optional: export GEONODE_COUNTRY=us
+#   python3 generate_geonode_proxies.py --count 50 --country us --out geonode_proxies.txt
+#
+# Test sticky IP (target URL is separate — this is only the proxy):
+#   curl -x "http://proxy.geonode.io:PORT" \
+#     --user "<geonode_username>-country-us-session-test123:PASSWORD" \
+#     "http://ip-api.com/json"
